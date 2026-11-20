@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>adit@archlinux — Adit Sharma</title>
+  <meta name="description" content="Adit Sharma (Codings-Biggest-Fan): portfolio served as a Nord-themed Arch Linux + Hyprland desktop. Rust, TypeScript, Java, games and tools.">
+  <meta name="theme-color" content="#2E3440">
+  <meta property="og:title" content="adit@archlinux — Adit Sharma">
+  <meta property="og:description" content="Portfolio served as a Nord-themed Arch + Hyprland desktop.">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <noscript>
+    <div class="noscript">
+      <h1>Adit Sharma</h1>
+      <p>This portfolio is a little Arch Linux desktop and needs JavaScript. Meanwhile:</p>
+      <ul>
+        <li><a href="https://github.com/Codings-Biggest-Fan">GitHub</a></li>
+        <li><a href="https://github.com/Codings-Biggest-Fan/kestrel">Kestrel: lightweight MSI Center replacement in Rust</a></li>
+        <li><a href="https://codings-biggest-fan.github.io/colonizers-of-resourceville-website/">The Colonizers of Resourceville</a></li>
+        <li><a href="https://codings-biggest-fan.github.io/Scouting-Website/">Scout &amp; SuperScout</a></li>
+        <li><a href="https://github.com/Codings-Biggest-Fan/my-keyboard">Custom keyboard</a></li>
+      </ul>
+    </div>
+  </noscript>
+
+  <!-- boot: GRUB + systemd + tty login -->
+  <div id="boot" class="boot" aria-hidden="true">
+    <div id="grub" class="grub">
+      <div class="grub-title">GNU GRUB  version 2.12</div>
+      <div class="grub-box">
+        <div class="grub-item active">*Arch Linux</div>
+        <div class="grub-item">Advanced options for Arch Linux</div>
+        <div class="grub-item">UEFI Firmware Settings</div>
+      </div>
+      <div class="grub-help">Use the ↑ and ↓ keys to select which entry is highlighted.<br>
+        Press enter to boot the selected OS. The highlighted entry will be executed automatically in <span id="grub-count">2</span>s.</div>
+    </div>
+    <pre id="boot-log" class="boot-log"></pre>
+    <button id="skip-boot" class="skip-boot" type="button">press any key to skip</button>
+  </div>
+
+  <div id="desktop" class="desktop" hidden>
+    <header class="bar" id="bar">
+      <div class="bar-left">
+        <button class="pill logo" id="logo-btn" type="button" title="App launcher (Alt+Space)" aria-label="Open app launcher">
+          <svg viewBox="0 0 64 64"><path d="M32 6 L56 56 Q44 46 32 46 Q20 46 8 56 Z" fill="currentColor"/><path d="M32 28 L39 45 Q32 43 25 45 Z" fill="var(--nord1)"/></svg>
+        </button>
+        <nav class="pill workspaces" id="workspaces" aria-label="Workspaces"></nav>
+        <div class="pill title" id="active-title">desktop</div>
+      </div>
+      <div class="bar-center">
+        <div class="pill clock" id="clock">--:--</div>
+      </div>
+      <div class="bar-right">
+        <div class="pill stats">
+          <span title="CPU"><i data-icon="cpu"></i><b id="cpu">4%</b></span>
+          <span title="Memory"><i data-icon="mem"></i><b id="mem">1.2G</b></span>
+          <span title="Fan (driven by Kestrel)"><i data-icon="fan" class="spin"></i><b id="fan">2400</b></span>
+        </div>
+        <div class="pill tray">
+          <i data-icon="wifi" title="Connected"></i>
+          <i data-icon="volume" title="Volume 50%"></i>
+          <span title="Battery"><i data-icon="battery"></i><b id="bat">94%</b></span>
+        </div>
+        <button class="pill power" id="power-btn" type="button" title="Power menu" aria-label="Power menu"><i data-icon="power"></i></button>
+      </div>
+    </header>
+
+    <main id="workspace-area" class="workspace-area" aria-live="polite"></main>
+
+    <nav class="dock" id="dock" aria-label="Dock"></nav>
+
+    <div id="launcher" class="launcher" hidden>
+      <div class="launcher-box" role="dialog" aria-label="App launcher">
+        <label class="launcher-search"><i data-icon="search"></i><input id="launcher-input" type="text" placeholder="drun: search apps and projects" autocomplete="off" spellcheck="false"></label>
+        <ul id="launcher-list" class="launcher-list" role="listbox"></ul>
+        <div class="launcher-hint"><kbd>↑</kbd><kbd>↓</kbd> move · <kbd>Enter</kbd> open · <kbd>Esc</kbd> close</div>
+      </div>
+    </div>
+
+    <div id="powermenu" class="powermenu" hidden>
+      <div class="power-grid" role="dialog" aria-label="Power menu">
+        <button type="button" data-power="lock"><i data-icon="lock"></i><span>Lock</span></button>
+        <button type="button" data-power="reboot"><i data-icon="reboot"></i><span>Reboot</span></button>
+        <button type="button" data-power="shutdown"><i data-icon="power"></i><span>Shutdown</span></button>
+        <button type="button" data-power="cancel"><i data-icon="x"></i><span>Cancel</span></button>
+      </div>
+    </div>
+
+    <div id="lock" class="lock" hidden>
+      <div class="lock-time" id="lock-time">--:--</div>
+      <div class="lock-date" id="lock-date"></div>
+      <form class="lock-form" id="lock-form">
+        <div class="lock-user"><div class="avatar">A</div><span>adit</span></div>
+        <input type="password" id="lock-input" placeholder="any password works, press Enter" autocomplete="off">
+      </form>
+    </div>
+
+    <div id="toasts" class="toasts" aria-live="polite"></div>
+  </div>
+
+  <div id="halted" class="halted" hidden>
+    <p>[  OK  ] Reached target System Power Off.</p>
+    <p>reboot: Power down</p>
+    <button type="button" id="power-on">⏻ power on</button>
+  </div>
+
+  <script src="assets/js/icons.js"></script>
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/terminal.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
