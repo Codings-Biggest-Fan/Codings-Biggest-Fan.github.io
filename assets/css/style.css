@@ -121,7 +121,7 @@ kbd { font-family: var(--mono); font-size: .78em; padding: 1px 6px; border-radiu
 .nvim-status .pos { color: var(--nord8); }
 
 /* files */
-.files { display: flex; font-size: 14px; }
+.files { display: flex; height: 100%; font-size: 14px; }
 .files-side { width: 210px; flex: none; padding: 10px 8px; background: rgba(46, 52, 64, .45); border-right: 1px solid var(--border); overflow: auto; }
 .files-side .side-h { font: 600 11px var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--nord3); padding: 10px 10px 6px; }
 .files-side a, .files-side button { display: flex; align-items: center; gap: 10px; width: 100%; text-align: left; padding: 7px 10px; border-radius: 8px; color: var(--nord4); text-decoration: none; font-size: 13px; }
@@ -147,6 +147,7 @@ kbd { font-family: var(--mono); font-size: .78em; padding: 1px 6px; border-radiu
 .btn:hover { background: var(--nord8); border-color: var(--nord8); color: var(--nord0); }
 @container (max-width: 560px) {
   .files { flex-direction: column; }
+  .files-main { min-height: 0; }
   .files-side { width: auto; display: flex; gap: 4px; overflow-x: auto; border-right: 0; border-bottom: 1px solid var(--border); padding: 8px; }
   .files-side .side-h, .files-side a { display: none; }
   .files-side button { width: auto; flex: none; }

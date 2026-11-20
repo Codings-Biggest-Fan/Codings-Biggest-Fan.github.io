@@ -57,15 +57,14 @@ function renderAbout(body) {
 }
 
 function renderProjects(body, win, arg) {
-  body.classList.add('files');
-  body.innerHTML = `
+  body.innerHTML = `<div class="files">
     <aside class="files-side">
       <div class="side-h">Places</div>
       <a href="${PROFILE.github}" target="_blank" rel="noopener">${icon('home')} GitHub</a>
       <div class="side-h">Projects</div>
       ${PROJECTS.map((p) => `<button type="button" data-id="${p.id}">${icon(p.icon)} <span>${esc(p.name)}</span></button>`).join('')}
     </aside>
-    <section class="files-main"></section>`;
+    <section class="files-main"></section></div>`;
   const main = $('.files-main', body);
   const select = (id) => {
     const p = PROJECTS.find((x) => x.id === id) || PROJECTS[0];
@@ -558,7 +557,10 @@ function bootSequence() {
     setTimeout(() => boot.remove(), 600);
     startDesktop();
   };
-  const skip = () => { if (!skipped) { skipped = true; finish(); } };
+  const skip = (e) => {
+    if (e) e.preventDefault();
+    if (!skipped) { skipped = true; finish(); }
+  };
 
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (sessionStorage.getItem('booted') || reduce) { boot.remove(); startDesktop(); return; }
